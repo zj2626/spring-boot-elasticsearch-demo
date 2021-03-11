@@ -21,7 +21,7 @@ public class DemoController {
 
     @GetMapping(value = "/query")
     public String query(MDemo dto) {
-//        System.out.println(service.findByIdIn(Collections.singletonList(dto.getId())));
+        System.out.println(service.findByIdIn(Collections.singletonList(dto.getId())));
         return "success";
     }
 }

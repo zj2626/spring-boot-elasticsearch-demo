@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface IndexBaseService<T extends AbstractIndexBaseEntity> {
 
-//    List<T> findByIdIn(Collection<? extends Serializable> idList);
+    List<T> findByIdIn(Collection<? extends Serializable> idList);
 
     Iterable<T> saveAll(Collection<T> entities);
 }

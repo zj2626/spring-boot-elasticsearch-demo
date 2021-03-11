@@ -1,8 +1,8 @@
 package com.elasticsearch.parent.service.impl;
 
-import com.elasticsearch.parent.service.IndexBaseService;
 import com.elasticsearch.parent.entity.AbstractIndexBaseEntity;
 import com.elasticsearch.parent.repository.IndexBaseRepository;
+import com.elasticsearch.parent.service.IndexBaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +26,10 @@ public abstract class IndexBaseServiceImpl<R extends IndexBaseRepository<T>, T e
         return repository;
     }
 
-//    @Override
-//    public List<T> findByIdIn(Collection<? extends Serializable> idList) {
-//        return repository.findByIdIn(idList);
-//    }
+    @Override
+    public List<T> findByIdIn(Collection<? extends Serializable> idList) {
+        return repository.findByIdIn(idList);
+    }
 
     @Override
     public Iterable<T> saveAll(Collection<T> entities) {

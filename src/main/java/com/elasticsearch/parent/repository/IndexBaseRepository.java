@@ -8,5 +8,5 @@ import java.util.Collection;
 import java.util.List;
 
 public interface IndexBaseRepository<T extends AbstractIndexBaseEntity> extends ElasticsearchRepository<T, Long> {
-//    List<T> findByIdIn(Collection<? extends Serializable> ids);
+    List<T> findByIdIn(Collection<? extends Serializable> ids);
 }

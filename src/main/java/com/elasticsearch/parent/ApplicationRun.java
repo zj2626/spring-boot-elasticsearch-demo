@@ -9,8 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication
-@ComponentScan({"com.elasticsearch.*"})
-@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
+@ComponentScan({"com.elasticsearch.parent.*"})
 @EnableConfigurationProperties
 public class ApplicationRun {
 

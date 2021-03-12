@@ -20,13 +20,8 @@ public abstract class IndexBaseEntity implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
-
-    /**
-     * 创建时间 排序可用
-     */
     @Field(type = FieldType.Date)
-    private Date createTimeForSort;
+    private Date createTime;
 
     /**
      * 创建人
@@ -41,13 +36,8 @@ public abstract class IndexBaseEntity implements Serializable {
     /**
      * 更新时间
      */
-    private Date updateTime;
-
-    /**
-     * 更新时间 排序可用
-     */
     @Field(type = FieldType.Date)
-    private Date updateTimeForSort;
+    private Date updateTime;
 
     /**
      * 更新人
@@ -59,19 +49,8 @@ public abstract class IndexBaseEntity implements Serializable {
      */
     private Long updateUserId;
 
-    @Field(type = FieldType.Date)
-    private Date syncData;
-
     // 逻辑删除 删除状态 0已删除 1未删除
     private Boolean deleteStatus;
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-        this.createTimeForSort = createTime;
-    }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-        this.updateTimeForSort = updateTime;
-    }
 }

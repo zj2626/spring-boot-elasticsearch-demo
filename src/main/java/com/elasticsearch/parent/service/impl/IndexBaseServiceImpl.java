@@ -1,6 +1,6 @@
 package com.elasticsearch.parent.service.impl;
 
-import com.elasticsearch.parent.entity.AbstractIndexBaseEntity;
+import com.elasticsearch.parent.entity.IndexBaseEntity;
 import com.elasticsearch.parent.repository.IndexBaseRepository;
 import com.elasticsearch.parent.service.IndexBaseService;
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ import java.util.List;
  * @description service层基类
  * @date 2020/4/21
  */
-public abstract class IndexBaseServiceImpl<R extends IndexBaseRepository<T>, T extends AbstractIndexBaseEntity> implements IndexBaseService<T> {
+public abstract class IndexBaseServiceImpl<R extends IndexBaseRepository<T>, T extends IndexBaseEntity> implements IndexBaseService<T> {
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired

@@ -85,13 +85,8 @@ public class LambdaAggregationBuilder {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public <T, R> LambdaAggregationBuilder globalTerms(SFunction<T> column, SFunction<R>... subColumns) {
-        return globalTerms(column, 0, subColumns);
-    }
-
-    @SuppressWarnings(value = "unchecked")
-    public <T, R> LambdaAggregationBuilder globalTerms(SFunction<T> column, Integer size, SFunction<R>... subColumns) {
-        final LambdaBo bo = getColumn(column, TERMS, subColumns);
+    public <T> LambdaAggregationBuilder globalTerms(SFunction<T> column, Integer size) {
+        final LambdaBo bo = getColumn(column, TERMS);
         aggregationNames.add(bo.getFormatName());
         final TermsAggregationBuilder builder = AggregationBuilders
                 .terms(bo.getFormatName())
@@ -99,8 +94,11 @@ public class LambdaAggregationBuilder {
                 .size(null == size || size <= 0 ? 16384 : size);
         if (null == getBuilder()) {
             setBuilder(builder);
-        } else {
+        } else if (null == getSubBuilder()) {
             getBuilder().subAggregation(builder);
+            setSubBuilder(builder);
+        } else {
+            getSubBuilder().subAggregation(builder);
             setSubBuilder(builder);
         }
         aggregationNamesSize++;
@@ -159,12 +157,12 @@ public class LambdaAggregationBuilder {
     /**
      * 统计个数
      */
-    public <T> AbstractAggregationBuilder<?> count(SFunction<T> column, SFunction<T>... subColumns) {
-        return count(column, null, subColumns);
+    public <T> AbstractAggregationBuilder<?> count(SFunction<T> column) {
+        return count(column, null);
     }
 
-    public <T> AbstractAggregationBuilder<?> count(SFunction<T> column, Boolean asc, SFunction<T>... subColumns) {
-        final LambdaBo bo = getColumn(column, COUNT, subColumns);
+    public <T> AbstractAggregationBuilder<?> count(SFunction<T> column, Boolean asc) {
+        final LambdaBo bo = getColumn(column, COUNT);
         aggregationNames.add(bo.getFormatName());
         AbstractAggregationBuilder<?> result = AggregationBuilders.count(bo.getFormatName()).field(bo.getColumnName());
         aggregationNamesSize++;
@@ -175,12 +173,12 @@ public class LambdaAggregationBuilder {
     /**
      * 去重+统计个数
      */
-    public <T> AbstractAggregationBuilder<?> cardinality(SFunction<T> column, SFunction<T>... subColumns) {
-        return cardinality(column, null, subColumns);
+    public <T> AbstractAggregationBuilder<?> cardinality(SFunction<T> column) {
+        return cardinality(column, null);
     }
 
-    public <T> AbstractAggregationBuilder<?> cardinality(SFunction<T> column, Boolean asc, SFunction<T>... subColumns) {
-        final LambdaBo bo = getColumn(column, CARDINALITY, subColumns);
+    public <T> AbstractAggregationBuilder<?> cardinality(SFunction<T> column, Boolean asc) {
+        final LambdaBo bo = getColumn(column, CARDINALITY);
         aggregationNames.add(bo.getFormatName());
         AbstractAggregationBuilder<?> result = AggregationBuilders.cardinality(bo.getFormatName()).field(bo.getColumnName());
         aggregationNamesSize++;
@@ -191,12 +189,12 @@ public class LambdaAggregationBuilder {
     /**
      * 求和  (默认不排序)
      */
-    public <T, R> AbstractAggregationBuilder<?> sum(SFunction<T> column, SFunction<R>... subColumns) {
-        return sum(column, null, subColumns);
+    public <T, R> AbstractAggregationBuilder<?> sum(SFunction<T> column) {
+        return sum(column, null);
     }
 
-    public <T, R> AbstractAggregationBuilder<?> sum(SFunction<T> column, Boolean asc, SFunction<R>... subColumns) {
-        final LambdaBo bo = getColumn(column, SUM, subColumns);
+    public <T, R> AbstractAggregationBuilder<?> sum(SFunction<T> column, Boolean asc) {
+        final LambdaBo bo = getColumn(column, SUM);
         aggregationNames.add(bo.getFormatName());
         AbstractAggregationBuilder<?> result = AggregationBuilders.sum(bo.getFormatName()).field(bo.getColumnName());
         aggregationNamesSize++;
@@ -207,12 +205,12 @@ public class LambdaAggregationBuilder {
     /**
      * 求平均 (默认不排序)
      */
-    public <T> AbstractAggregationBuilder<?> avg(SFunction<T> column, SFunction<T>... subColumns) {
-        return avg(column, null, subColumns);
+    public <T> AbstractAggregationBuilder<?> avg(SFunction<T> column) {
+        return avg(column, null);
     }
 
-    public <T> AbstractAggregationBuilder<?> avg(SFunction<T> column, Boolean asc, SFunction<T>... subColumns) {
-        final LambdaBo bo = getColumn(column, AVG, subColumns);
+    public <T> AbstractAggregationBuilder<?> avg(SFunction<T> column, Boolean asc) {
+        final LambdaBo bo = getColumn(column, AVG);
         aggregationNames.add(bo.getFormatName());
         AbstractAggregationBuilder<?> result = AggregationBuilders.avg(bo.getFormatName()).field(bo.getColumnName());
         aggregationNamesSize++;
@@ -223,12 +221,12 @@ public class LambdaAggregationBuilder {
     /**
      * 求最大 (默认不排序)
      */
-    public <T> AbstractAggregationBuilder<?> max(SFunction<T> column, SFunction<T>... subColumns) {
-        return max(column, null, subColumns);
+    public <T> AbstractAggregationBuilder<?> max(SFunction<T> column) {
+        return max(column, null);
     }
 
-    public <T> AbstractAggregationBuilder<?> max(SFunction<T> column, Boolean asc, SFunction<T>... subColumns) {
-        final LambdaBo bo = getColumn(column, MAX, subColumns);
+    public <T> AbstractAggregationBuilder<?> max(SFunction<T> column, Boolean asc) {
+        final LambdaBo bo = getColumn(column, MAX);
         aggregationNames.add(bo.getFormatName());
         AbstractAggregationBuilder<?> result = AggregationBuilders.max(bo.getFormatName()).field(bo.getColumnName());
         aggregationNamesSize++;
@@ -239,12 +237,12 @@ public class LambdaAggregationBuilder {
     /**
      * 求最小 (默认不排序)
      */
-    public <T> AbstractAggregationBuilder<?> min(SFunction<T> column, SFunction<T>... subColumns) {
-        return min(column, null, subColumns);
+    public <T> AbstractAggregationBuilder<?> min(SFunction<T> column) {
+        return min(column, null);
     }
 
-    public <T> AbstractAggregationBuilder<?> min(SFunction<T> column, Boolean asc, SFunction<T>... subColumns) {
-        final LambdaBo bo = getColumn(column, MIN, subColumns);
+    public <T> AbstractAggregationBuilder<?> min(SFunction<T> column, Boolean asc) {
+        final LambdaBo bo = getColumn(column, MIN);
         aggregationNames.add(bo.getFormatName());
         AbstractAggregationBuilder<?> result = AggregationBuilders.min(bo.getFormatName()).field(bo.getColumnName());
         aggregationNamesSize++;
@@ -307,13 +305,13 @@ public class LambdaAggregationBuilder {
         }
     }
 
-    protected <T, R> LambdaBo getColumn(SFunction<T> column, String operateType, SFunction<R>... subColumns) {
+    protected <T> LambdaBo getColumn(SFunction<T> column, String operateType) {
         StringBuilder columnName = new StringBuilder(BeanUtils.convertToFieldName(column));
-        if (null != subColumns && subColumns.length > 0) {
-            for (SFunction<R> subColumn : subColumns) {
-                columnName.append(".").append(BeanUtils.convertToFieldName(subColumn));
-            }
-        }
+        //        if (null != subColumns && subColumns.length > 0) {
+        //            for (SFunction<R> subColumn : subColumns) {
+        //                columnName.append(".").append(BeanUtils.convertToFieldName(subColumn));
+        //            }
+        //        }
         final String formatName = String.format(FORMAT_STRING, operateType, aggregationNamesSize, columnName.toString());
         return LambdaBo.builder().columnName(columnName.toString()).formatName(formatName).build();
     }
